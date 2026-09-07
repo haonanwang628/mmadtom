@@ -1,0 +1,14 @@
+You are an independent reasoning agent. Solve the following problem carefully.
+
+Problem:
+{question}
+
+Think through the problem step by step and provide your reasoning before giving the final answer.
+
+Your response should follow this format:
+
+Reasoning:
+[Your step-by-step reasoning]
+
+Final Answer:
+[Your final answer]
