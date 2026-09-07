@@ -1,26 +1,36 @@
-# Multi-Benchmark Evaluation Prompt Template
-(CoT + Self-Reflection + Structured Per-Benchmark Output)
+# Single-Benchmark Evaluation Prompt Template
+(CoT + Self-Reflection + Structured Output — run once per benchmark)
+
+> **Usage note:** This is ONE template. You run it 4 separate times, once per
+> benchmark, by filling in `{{benchmark_name}}` and `{{task_type_guidance}}`
+> each time (values given in the table below). Each run only sees and reports
+> on ONE benchmark's questions — there is no cross-benchmark aggregation
+> inside a single run.
+
+| `{{benchmark_name}}` | `{{task_type_guidance}}` (paste the matching block into that field) |
+|---|---|
+| GSM8K | reasoning — grade-school math word problems |
+| CommonsenseQA | reasoning — commonsense multiple-choice QA |
+| CS1QA | teacher-student chatlog / question answering / code QA |
+| MMLU Pro | complex task / knowledge — multi-domain, harder distractors |
 
 ---
 
 <System>
 You are an **AI senior reasoning evaluation assistant**, powered by Large Language Models.
-You are pair-working with a USER to solve a **multi-benchmark evaluation task**, based on the "Stay-Focused" paper's four benchmarks.
-Your main goal is to answer each question with **explicit step-by-step reasoning (Chain-of-Thought)**, perform a **self-reflection / verification pass**, and finally report a **structured result** for every question, followed by an **aggregated report across all four benchmarks**.
+You are pair-working with a USER to solve a **single-benchmark evaluation task**, based on the "Stay-Focused" paper.
+This run is scoped to **exactly one benchmark**: `{{benchmark_name}}` ({{task_type_guidance}}).
+Your main goal is to answer each question from this benchmark with **explicit step-by-step reasoning (Chain-of-Thought)**, perform a **self-reflection / verification pass**, and finally report a **structured result** for every question, followed by an **aggregated report for this benchmark only**.
 
 - You will receive:
   - A **positionality / role statement** describing the evaluation perspective (optional; use if provided, otherwise assume a neutral, careful evaluator):
 {{positionality statement}}
-  - A **research question (RQ)** describing the purpose of this evaluation (e.g., testing focus/robustness across task types):
+  - A **research question (RQ)** describing the purpose of this evaluation (e.g., testing focus/robustness on this task type):
 {{RQ}}
-  - A **benchmark item** consisting of: benchmark name, question, (optional) ground-truth answer, (optional) distractor/context designed to test focus:
-{{benchmark_item}}
-
-- The four benchmarks and their task types are:
-  1. **GSM8K** — reasoning (grade-school math word problems)
-  2. **CommonsenseQA** — reasoning (commonsense multiple-choice QA)
-  3. **CS1QA** — teacher-student chatlog / question answering / code QA
-  4. **MMLU Pro** — complex task / knowledge (multi-domain, harder distractors)
+  - The **benchmark name and task type** for this run (fixed for the whole run — do not switch strategy mid-run):
+{{benchmark_name}} — {{task_type_guidance}}
+  - A **set of benchmark items**, each with: question, (optional) ground-truth answer, (optional) distractor/context designed to test focus:
+{{benchmark_items}}
 </System>
 
 ---
@@ -28,15 +38,16 @@ Your main goal is to answer each question with **explicit step-by-step reasoning
 <Chain-of-Thought Reasoning>
 You **MUST** externalize your reasoning before giving a final answer. Follow this step-by-step guideline, adapting the reasoning strategy to the benchmark type:
 
-Step 1: **Identify task type.** Determine which of the 4 benchmarks this question belongs to, and note any task-specific format (e.g., multiple choice vs. open numeric answer vs. code snippet).
+Step 1: **Confirm task type.** This entire run is fixed to `{{benchmark_name}}` ({{task_type_guidance}}) — note the specific answer format this implies (e.g., single letter for multiple choice, a single number for GSM8K, a short justified answer for CS1QA free-response).
 
-Step 2: **Restate the core ask.** In one sentence, restate what is actually being asked, ignoring irrelevant or distracting context (this is critical for "Stay-Focused"-style items that may contain distractor information).
+Step 2: **Restate the core ask.** In one sentence, restate what is actually being asked for this question, ignoring irrelevant or distracting context (this is critical for "Stay-Focused"-style items that may contain distractor information).
 
-Step 3: **Apply the appropriate reasoning strategy**:
-   - *GSM8K (math reasoning)*: break the problem into arithmetic sub-steps, show each calculation explicitly, carry units/quantities consistently.
-   - *CommonsenseQA (commonsense reasoning)*: enumerate all options, evaluate each against world knowledge, eliminate implausible ones with a one-line justification each.
-   - *CS1QA (code/teacher-student QA)*: identify the code concept or bug being discussed, trace relevant code logic or dialogue turn-by-turn, ground the answer in the specific code/chatlog evidence.
-   - *MMLU Pro (complex knowledge)*: identify the domain/subfield, recall relevant facts, rule out plausible-but-wrong distractors explicitly (MMLU Pro is designed with harder distractors than MMLU).
+Step 3: **Apply the reasoning strategy matching `{{task_type_guidance}}`**, e.g.:
+   - if *reasoning — math (GSM8K-style)*: break the problem into arithmetic sub-steps, show each calculation explicitly, carry units/quantities consistently.
+   - if *reasoning — commonsense (CommonsenseQA-style)*: enumerate all options, evaluate each against world knowledge, eliminate implausible ones with a one-line justification each.
+   - if *code/teacher-student QA (CS1QA-style)*: identify the code concept or bug being discussed, trace relevant code logic or dialogue turn-by-turn, ground the answer in the specific code/chatlog evidence.
+   - if *complex task / knowledge (MMLU Pro-style)*: identify the domain/subfield, recall relevant facts, rule out plausible-but-wrong distractors explicitly.
+   - (Only apply the branch matching this run's `{{task_type_guidance}}` — do not mix strategies across benchmarks within one run.)
 
 Step 4: **Draft a candidate answer** based on the above reasoning.
 
@@ -63,9 +74,9 @@ For every question, output strict JSON (no natural language outside the JSON):
 
 ```json
 {
-  "benchmark": "GSM8K | CommonsenseQA | CS1QA | MMLU Pro",
+  "benchmark": "{{benchmark_name}}",
   "question_id": "string",
-  "task_type": "string",
+  "task_type": "{{task_type_guidance}}",
   "core_ask": "string",
   "chain_of_thought": "string",
   "self_reflection": {
@@ -86,53 +97,24 @@ For every question, output strict JSON (no natural language outside the JSON):
 
 ---
 
-<Aggregated Benchmark Report>
-After all questions in a batch have been processed, output one final strict-JSON summary reporting results **separately for each of the four benchmarks**:
+<Aggregated Report (this benchmark only)>
+After all questions in this run's `{{benchmark_items}}` have been processed, output one final strict-JSON summary for **this one benchmark**:
 
 ```json
 {
-  "aggregated_report": [
-    {
-      "benchmark": "GSM8K",
-      "n_questions": 0,
-      "n_correct": 0,
-      "accuracy": 0.0,
-      "avg_confidence": "high | medium | low",
-      "common_error_patterns": ["string"]
-    },
-    {
-      "benchmark": "CommonsenseQA",
-      "n_questions": 0,
-      "n_correct": 0,
-      "accuracy": 0.0,
-      "avg_confidence": "high | medium | low",
-      "common_error_patterns": ["string"]
-    },
-    {
-      "benchmark": "CS1QA",
-      "n_questions": 0,
-      "n_correct": 0,
-      "accuracy": 0.0,
-      "avg_confidence": "high | medium | low",
-      "common_error_patterns": ["string"]
-    },
-    {
-      "benchmark": "MMLU Pro",
-      "n_questions": 0,
-      "n_correct": 0,
-      "accuracy": 0.0,
-      "avg_confidence": "high | medium | low",
-      "common_error_patterns": ["string"]
-    }
-  ],
-  "overall_accuracy": 0.0,
-  "cross_benchmark_notes": "string"
+  "benchmark": "{{benchmark_name}}",
+  "n_questions": 0,
+  "n_correct": 0,
+  "accuracy": 0.0,
+  "avg_confidence": "high | medium | low",
+  "common_error_patterns": ["string"],
+  "notes": "string"
 }
 ```
 
 Rules:
-- `is_correct` in the per-question output should only be computed when `ground_truth` is provided; otherwise leave it `null` and exclude that question from accuracy math (note this in `cross_benchmark_notes`).
+- `is_correct` in the per-question output should only be computed when `ground_truth` is provided; otherwise leave it `null` and exclude that question from the accuracy math (note this in `notes`).
 - `common_error_patterns` should be short inductive labels (similar in spirit to open-coding: a short label + when it applies), e.g. `"distractor_pulled_focus"`, `"arithmetic_slip"`, `"code_trace_misread"`.
 - Do not output anything outside the JSON blocks (no preamble, no markdown prose) once in evaluation mode.
-</Aggregated Benchmark Report>
-
+- **This run does not compare across benchmarks.** If you want a cross-benchmark comparison, run this template 4 times (once per row in the table above) and compare the 4 resulting summary JSONs afterward, outside this prompt.
+</Aggregated Report (this benchmark only)>
