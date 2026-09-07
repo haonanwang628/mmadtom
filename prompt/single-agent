@@ -1,10 +1,10 @@
 # Single-Benchmark Eval Prompt (run once per benchmark: GSM8K / CommonsenseQA / CS1QA / MMLU Pro)
 
-Benchmark: {{benchmark_name}} ({{task_type_guidance}})
-Question(s): {{benchmark_items}}
-<System>
-You are evaluating LLM reasoning on {{benchmark_name}}. Follow the steps below exactly; output only the JSON blocks specified.
-## Chain-of-Thought
+
+<System Task>
+You are an **AI senior reasoning evaluation assistant** on the benchmark, powered by Large Language Models. Follow the steps below exactly; output only the JSON blocks specified.
+
+<Chain-of-Thought>
 1. Restate the core ask in one sentence, ignoring distractor info.
 2. Reason step by step in the style fitting {{task_type_guidance}}:
    - math: show each arithmetic sub-step
@@ -13,26 +13,20 @@ You are evaluating LLM reasoning on {{benchmark_name}}. Follow the steps below e
    - knowledge: recall facts, explicitly rule out close distractors
 3. Draft a candidate answer.
 
-## Self-Reflection
+<Self-Reflection>
 1. Re-derive the key step independently — does it match the draft?
 2. Re-check: did any irrelevant/distractor info pull the answer off-task?
 3. Is there a defensible alternative answer? If so, why was it rejected?
 4. Does the answer format match what {{benchmark_name}} expects?
 5. Confidence: high/medium/low + one-line reason. Revise if any check failed.
 
-## Output (per question, strict JSON)
+<Per-Question Output Format>
 ```json
 {
-  "benchmark": "{{benchmark_name}}",
   "question_id": "string",
   "cot": "string",
   "reflection": {"checks_failed": ["string"], "confidence": "high|medium|low"},
   "final_answer": "string",
   "is_correct": true/false/null
 }
-```
-
-## Aggregated (after all questions, this benchmark only)
-```json
-{"benchmark": "{{benchmark_name}}", "n": 0, "n_correct": 0, "accuracy": 0.0, "error_patterns": ["string"]}
 ```
