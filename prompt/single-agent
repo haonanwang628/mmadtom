@@ -19,8 +19,10 @@ You are an **AI senior reasoning evaluation assistant** on the benchmark, powere
 {
   "question_id": "string",
   "cot": "string",
-  "reflection": {"checks_failed": ["string"], "confidence": "high|medium|low"},
+  "reflection": {
+    "checks_failed": "array, each item one of: rederivation_mismatch | distractor_hijack | format_mismatch | none",
+    "revised": "boolean"
+  },
   "final_answer": "string",
-  "is_correct": true/false/null
 }
 ```
