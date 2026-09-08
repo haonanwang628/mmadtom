@@ -1,0 +1,19 @@
+{
+  "source": "https://huggingface.co/datasets/tau/commonsense_qa",
+  "config": "default",
+  "splits": {
+    "train": {
+      "rows": 9741,
+      "file": "train.jsonl"
+    },
+    "validation": {
+      "rows": 1221,
+      "file": "validation.jsonl"
+    },
+    "test": {
+      "rows": 1140,
+      "file": "test.jsonl"
+    }
+  },
+  "note": "Original fields preserved. CommonsenseQA test answer labels are not public."
+}
