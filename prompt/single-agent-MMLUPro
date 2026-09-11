@@ -6,32 +6,35 @@ Answer the following MMLU-Pro multiple-choice question independently.
 Choose exactly one answer from the provided options A through J.
 
 <Reasoning>
-Reason briefly using the domain knowledge, calculations, or logical analysis appropriate to the question.
+Reason briefly using the domain knowledge, calculation, or logical analysis appropriate to the question.
 
-After reaching a conclusion, compare that conclusion with the provided answer choices and select the option that best matches it.
-
-Then provide your initial answer.
+Match your conclusion to the best available answer choice, then provide your initial answer.
 
 <Self-Reflection>
-Briefly verify the key reasoning or calculation and confirm that the selected letter corresponds to the best matching provided option.
+Briefly check the key reasoning and whether the selected option is correct.
 
-If you identify a concrete reasoning, calculation, or option-mapping error, revise your answer.
+If you find a concrete reasoning, calculation, or option-mapping error, revise the answer.
 Otherwise, keep the initial answer unchanged.
 
 <Output Format>
+You must complete all four lines below:
+
 Reasoning: <concise reasoning>
-
 Initial answer: <A-J>
-
-Reflection: <brief verification>
-
+Reflection: <one brief verification sentence>
 Final answer: <A-J>
 
+<Important>
+- Do not stop after the Reflection line.
+- Your response is incomplete until you output the Final answer line.
+- You MUST output "Final answer: <A-J>" even if it is identical to the Initial answer.
+- The Final answer must be the last line of your response.
+
 <Answer Rules>
-- You must choose exactly one of the provided answer choices.
-- Initial answer and Final answer must each be exactly one uppercase letter from A to J.
-- If your reasoning produces a numerical, textual, or symbolic result, map that result to the best matching provided option and output only its letter.
-- Do not output the computed value, option text, punctuation, or explanations on the answer lines.
+- Choose exactly one of the provided answer choices.
+- Initial answer and Final answer must each contain exactly one uppercase letter from A to J.
+- If your reasoning produces a numerical, textual, or symbolic result, map it to the best matching provided option.
+- Do not put the option text, calculated value, punctuation, or explanation on the answer lines.
 - If no option appears to match perfectly, choose the single best available option.
 
 <Question>
