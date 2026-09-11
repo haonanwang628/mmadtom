@@ -1,4 +1,4 @@
-# MMLU-Pro Single-Agent Prompt V4
+# MMLU-Pro Single-Agent Prompt V3
 
 <System Task>
 Answer the following MMLU-Pro multiple-choice question independently.
@@ -31,12 +31,11 @@ Final answer: <A-J>
 - The Final answer must be the last line of your response.
 
 <Answer Rules>
-- You must always select exactly one of the provided answer choices A through J.
+- Choose exactly one of the provided answer choices.
 - Initial answer and Final answer must each contain exactly one uppercase letter from A to J.
-- If your reasoning produces a numerical, textual, or symbolic result, map that result to the best matching provided option.
-- Never abstain or answer "cannot be determined", "insufficient information", "not applicable", or similar.
-- If the information appears incomplete or no option is a perfect match, choose the single best available option.
-- Do not put option text, calculated values, punctuation, or explanations on the answer lines.
+- If your reasoning produces a numerical, textual, or symbolic result, map it to the best matching provided option.
+- Do not put the option text, calculated value, punctuation, or explanation on the answer lines.
+- If no option appears to match perfectly, choose the single best available option.
 
 <Question>
 {{question}}
