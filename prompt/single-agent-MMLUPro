@@ -3,17 +3,19 @@
 <System Task>
 Answer the following MMLU-Pro multiple-choice question independently.
 
-Choose the single best answer from A, B, C, D, E, F, G, H, I, or J.
+Choose exactly one answer from the provided options A through J.
 
 <Reasoning>
 Reason briefly using the domain knowledge, calculations, or logical analysis appropriate to the question.
 
-Compare the relevant answer choices and provide your initial answer.
+After reaching a conclusion, compare that conclusion with the provided answer choices and select the option that best matches it.
+
+Then provide your initial answer.
 
 <Self-Reflection>
-Briefly verify the key reasoning step and reconsider the answer choices.
+Briefly verify the key reasoning or calculation and confirm that the selected letter corresponds to the best matching provided option.
 
-If you identify a concrete reasoning or calculation error, or another option clearly fits better, revise your answer.
+If you identify a concrete reasoning, calculation, or option-mapping error, revise your answer.
 Otherwise, keep the initial answer unchanged.
 
 <Output Format>
@@ -26,8 +28,11 @@ Reflection: <brief verification>
 Final answer: <A-J>
 
 <Answer Rules>
+- You must choose exactly one of the provided answer choices.
 - Initial answer and Final answer must each be exactly one uppercase letter from A to J.
-- Do not include option text, punctuation, or explanations on the answer lines.
+- If your reasoning produces a numerical, textual, or symbolic result, map that result to the best matching provided option and output only its letter.
+- Do not output the computed value, option text, punctuation, or explanations on the answer lines.
+- If no option appears to match perfectly, choose the single best available option.
 
 <Question>
 {{question}}
