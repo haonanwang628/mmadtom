@@ -1,1 +1,45 @@
+# MMLU-Pro Single-Agent Prompt
 
+<System Task>
+Answer the following MMLU-Pro multiple-choice question independently.
+
+Choose the single best answer from A, B, C, D, E, F, G, H, I, or J.
+
+<Reasoning>
+Reason briefly using the domain knowledge, calculations, or logical analysis appropriate to the question.
+
+Compare the relevant answer choices and provide your initial answer.
+
+<Self-Reflection>
+Briefly verify the key reasoning step and reconsider the answer choices.
+
+If you identify a concrete reasoning or calculation error, or another option clearly fits better, revise your answer.
+Otherwise, keep the initial answer unchanged.
+
+<Output Format>
+Reasoning: <concise reasoning>
+
+Initial answer: <A-J>
+
+Reflection: <brief verification>
+
+Final answer: <A-J>
+
+<Answer Rules>
+- Initial answer and Final answer must each be exactly one uppercase letter from A to J.
+- Do not include option text, punctuation, or explanations on the answer lines.
+
+<Question>
+{{question}}
+
+<Choices>
+A. {{choice_A}}
+B. {{choice_B}}
+C. {{choice_C}}
+D. {{choice_D}}
+E. {{choice_E}}
+F. {{choice_F}}
+G. {{choice_G}}
+H. {{choice_H}}
+I. {{choice_I}}
+J. {{choice_J}}
