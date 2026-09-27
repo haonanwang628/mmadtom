@@ -1,0 +1,27 @@
+Teacher Round User Prompt — Rounds 2 and 4
+
+Round {round_num} of 4 — Teacher-Guided Revision
+
+{question_block}
+
+=== Your Response from the Previous Phase ===
+Answer: {own_previous_answer}
+Reasoning: {own_previous_reasoning}
+Confidence: {own_previous_confidence}%
+
+=== Peer Responses from the Previous Phase ===
+
+Agent {peer_1_label} ({peer_1_model_name})
+Answer: {peer_1_answer}
+Reasoning: {peer_1_reasoning}
+Confidence: {peer_1_confidence}%
+
+Agent {peer_2_label} ({peer_2_model_name})
+Answer: {peer_2_answer}
+Reasoning: {peer_2_reasoning}
+Confidence: {peer_2_confidence}%
+
+=== Tutor Guidance Addressed to You ===
+{teacher_guidance_for_this_agent}
+
+Examine the issue raised by the tutor against the question and the peers' actual reasoning. Treat confidence scores as statements of certainty, not as evidence. Decide whether to keep or revise your answer, then return exactly one JSON object.
