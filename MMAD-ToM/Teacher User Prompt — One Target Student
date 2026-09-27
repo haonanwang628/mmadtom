@@ -1,0 +1,14 @@
+Prepare guidance for Agent {target_label} before Round {round_num}.
+
+{question_block}
+
+=== Target Student's Available History ===
+{target_student_history_through_previous_round}
+
+=== Information the Target Student Saw Before Each Earlier Response ===
+{peer_exposure_history_for_target}
+
+=== Earlier Tutor Guidance Delivered to This Student ===
+{prior_tutor_guidance_or_none}
+
+Diagnose only Agent {target_label}. Do not provide diagnoses or guidance for the other agents. Use the required labeled sections.
