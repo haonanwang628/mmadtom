@@ -1,9 +1,6 @@
 # MMAD-ToM Prompt Architecture and Usage Guide
-
-
 ## 1. Purpose 
-
-**English.** This guide explains how the seven prompt templates in the revised MMAD-ToM design work together. Three student agents (M, P, Q) answer independently in Phase 0 and then complete four synchronous debate rounds. Rounds 1 and 3 emphasize peer-level Theory of Mind (ToM). Before students answer in Rounds 2 and 4, the teacher diagnoses each student separately and sends targeted guidance for that same round. Peers' stated confidence is visible in every debate round so its relationship with answer revision can be studied.
+ This guide explains how the seven prompt templates in the revised MMAD-ToM design work together. Three student agents (M, P, Q) answer independently in Phase 0 and then complete four synchronous debate rounds. Rounds 1 and 3 emphasize peer-level Theory of Mind (ToM). Before students answer in Rounds 2 and 4, the teacher diagnoses each student separately and sends targeted guidance for that same round. Peers' stated confidence is visible in every debate round so its relationship with answer revision can be studied.
 
 
 
@@ -75,5 +72,5 @@
 **Implementation note** If Python `str.format()` is used, literal JSON braces in system prompts must be escaped as `{{` and `}}`, or a template renderer that distinguishes literals from variables must be used.
 ## 6. Generation and Evaluation
 
-**English.** The target shared generation settings are `temperature=0.3`, `top_p=0.9`, and `max_tokens=2048` for student and teacher calls. The older script defaults to temperature 0.7; check the effective run configuration. Store five student outputs per agent (Phase 0 plus four rounds), six teacher outputs per question, and the exact inputs or reconstructed exposure needed to audit answer changes. The evaluation judge is separate from the debate and should never feed gold labels or correctness judgments back to the agents. CS1QA needs its own correctness judge before drift and recovery can be computed for that dataset.
+The target shared generation settings are `temperature=0.3`, `top_p=0.9`, and `max_tokens=2048` for student and teacher calls. The older script defaults to temperature 0.7; check the effective run configuration. Store five student outputs per agent (Phase 0 plus four rounds), six teacher outputs per question, and the exact inputs or reconstructed exposure needed to audit answer changes. The evaluation judge is separate from the debate and should never feed gold labels or correctness judgments back to the agents. CS1QA needs its own correctness judge before drift and recovery can be computed for that dataset.
 
