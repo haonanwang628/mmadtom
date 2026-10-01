@@ -1,1 +1,2 @@
-# MMAD-ToM prompt
+# MMAD-ToM structure
+
